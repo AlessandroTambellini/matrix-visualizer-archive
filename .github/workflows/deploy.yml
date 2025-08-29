@@ -47,8 +47,8 @@ jobs:
           mkdir -p dist/node_modules/three/examples
           
           # Copy Three.js module files
-          cp node_modules/three/build/three.core.js dist/node_modules/three/build/
-          cp node_modules/three/build/three.module.js dist/node_modules/three/build/
+          cp node_modules/three/build/three.core.min.js dist/node_modules/three/build/three.core.js
+          cp node_modules/three/build/three.module.min.js dist/node_modules/three/build/three.module.js
           cp -r node_modules/three/examples/jsm dist/node_modules/three/examples/
           
           # Copy package.json info for reference (optional)
