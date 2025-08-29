@@ -1,0 +1,171 @@
+@import './_universal.css';
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: black;
+    position: relative;
+}
+
+canvas {
+    display: block;
+    /* for a reason I don't understand, 
+    the canvas overflows a bit the viewport,
+    therefore I need to set these max-<dimension> */
+    max-width: 100vw;
+    max-height: 100vh;
+}
+
+aside {
+    position: fixed;
+    top: 0;
+    right: 0;
+    padding: 1em;
+    backdrop-filter: blur(10px);
+    background-color: rgb(32 32 32 / 32%);
+    max-height: 100vh;
+    overflow: scroll;
+    scrollbar-width: none;
+}
+
+aside > nav {
+    position: sticky;
+    top: 0;
+    display: flex;
+    justify-content: end;
+    gap: 1em;
+    margin-bottom: 1em;
+}
+
+#matrix-nav,
+#controls {
+    z-index: -1;
+}
+
+aside > nav button {
+    border-radius: 8px;
+}
+
+aside > nav button:hover {
+    opacity: .9;
+}
+
+#open-controls-btn span[role=img] {
+    display: block;
+    padding-block: .75rem;
+    padding-inline: .75rem;
+}
+
+#open-controls-btn span[role=img] > span {
+    display: block;
+    width: 2.5rem;
+    height: 3px;
+    border-radius: 3px;
+    background-color: grey;
+    margin-bottom: 1em;
+    position: relative;
+}
+
+#open-controls-btn span[role=img] > span:last-child {
+    margin-bottom: 0;
+}
+
+#open-controls-btn span[role=img] > span::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    
+    width: 10px;
+    aspect-ratio: 1;
+    border-radius: 100%;
+    background-color: darkred;
+}
+
+#open-controls-btn span[role=img] > span:nth-child(2):after {
+    left: 50%;
+}
+#open-controls-btn span[role=img] > span:last-child::after {
+    left: 15%;
+}
+
+#open-matrix-nav-btn {
+    padding: .25em;
+}
+
+#open-matrix-nav-btn span[role=img] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+#open-matrix-nav-btn span[role=img] .left-bracket,
+#open-matrix-nav-btn span[role=img] .right-bracket {
+    width: .5em;
+    height: 2.5em;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+}
+
+#open-matrix-nav-btn span[role=img] .left-bracket {
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+    border-left: 2px solid black;
+}
+
+#open-matrix-nav-btn span[role=img] .right-bracket {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    border-right: 2px solid black;
+}
+
+#open-matrix-nav-btn span[role=img] .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+/* 
+  Controls */
+
+#controls {
+    color: whitesmoke;
+    font-size: 1.2rem;
+}
+
+#controls form > fieldset {
+    padding: 1em;
+    padding-top: 0;
+}
+
+#custom-matrix > button {
+    display: block;
+    margin-left: auto;
+    margin-top: .25em;
+    margin-bottom: 1em;
+}
+
+#custom-matrix > fieldset > fieldset {
+    padding: .5em;
+    padding-top: .25em;
+}
+
+#custom-matrix > fieldset > fieldset,
+#scalars div {
+    margin-top: .5em;
+}
+
+/* 
+  Matrix Nav */
+
+#matrix-nav .card {
+    margin-bottom: .5em;
+}

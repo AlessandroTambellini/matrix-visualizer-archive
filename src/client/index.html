@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Visualize matrices">
+    
+    <link rel="icon" href="./matrix.webp" type="image/svg+xml">
+
+    <title>Matrix Visualizer</title>
+
+    <link rel="stylesheet" href="./index.css">	
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "/node_modules/three/build/three.module.js",
+            "three/addons/": "/node_modules/three/examples/jsm/"
+        }
+    }
+    </script>
+    <script src="./index.js" type="module"></script>
+    <script src="./render.js" type="module"></script>
+    <script src="./ui.js"    type="module"></script>
+</head>
+<body>
+    <h1 class="hidden">Matrix Visualizer</h1>
+
+    <canvas></canvas>
+
+    <aside>
+        <nav>
+            <button id="open-controls-btn" title="controls">
+                <span role="img">
+                    <span class="top"></span>
+                    <span class="center">
+                    </span>
+                    <span class="bottom"></span>
+                </span>
+            </button>
+            <button id="open-matrix-nav-btn" title="matrices">
+                <span role="img">
+                    <span class="left-bracket"></span>
+                    <span class="center">
+                        0 1
+                        <br>
+                        1 0
+                    </span>
+                    <span class="right-bracket"></span>
+                </span>
+            </button>
+        </nav>
+
+        <section id="controls" class="display-none">
+            <form id="custom-matrix">
+                <fieldset>
+                    <legend>Custom Matrix</legend>
+                    <fieldset class="custom-matrix-vector">
+                        <legend>v1</legend>
+                        <!-- These placeholders are hardcoded to reflect the vectors of the 
+                         initial matrix rendered. -->
+                        <input name="v1 x" type="number" min="-9" max="9" placeholder="5">
+                        <input name="v1 y" type="number" min="-9" max="9" placeholder="4">
+                        <input name="v1 z" type="number" min="-9" max="9" placeholder="1">
+                    </fieldset>
+                    <fieldset class="custom-matrix-vector">
+                        <legend>v2</legend>
+                        <input name="v2 x" type="number" min="-9" max="9" placeholder="-2">
+                        <input name="v2 y" type="number" min="-9" max="9" placeholder="3">
+                        <input name="v2 z" type="number" min="-9" max="9" placeholder="-4">
+                    </fieldset>
+                    <fieldset class="custom-matrix-vector">
+                        <legend>v3</legend>
+                        <input name="v3 x" type="number" min="-9" max="9" placeholder="3">
+                        <input name="v3 y" type="number" min="-9" max="9" placeholder="-4">
+                        <input name="v3 z" type="number" min="-9" max="9" placeholder="-6">
+                    </fieldset>
+                </fieldset>
+                <button class="secondary-btn">Create Matrix</button>
+            </form>
+
+            <form id="scalars">
+                <fieldset>
+                    <legend>Multiply by Scalar</legend>
+                    <div id="v1-control" class="flex">
+                        <label for="v1-slider">v1</label>
+                        <input type="range" min="-9" max="9" value="1" id="v1-slider" class="v-slider">
+                        <span class="v-scalar">1</span>
+                    </div>
+                    <div id="v2-control" class="flex">
+                        <label for="v2-slider">v2</label>
+                        <input type="range" min="-9" max="9" value="1" id="v2-slider" class="v-slider">		
+                        <span class="v-scalar">1</span>
+                    </div>
+                    
+                    <div id="v3-control" class="flex">
+                        <label for="v3-slider">v3</label>
+                        <input type="range" min="-9" max="9" value="1" id="v3-slider" class="v-slider">		
+                        <span class="v-scalar">1</span>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+
+        <nav id="matrix-nav" class="display-none">				
+            <article class="card">
+                <h2>Symmetric Matrix</h2>
+                <p>
+                    A Symmetric Matrix is a matrix that is mirrored across the diagonal.
+                    Formally, a matrix is symmetric if it equals its transpose:
+                    <i>A = A<sup>T</sup></i>
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Symmetric_matrix" class="external-link">
+                        Symmetric Matrix
+                    </a>
+                    <button id="symm-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+
+            <article class="card">
+                <h2>Skew-Symmetric Matrix</h2>
+                <p>
+                    A Skew-Symmetric Matrix is a matrix where the lower-triangle is the 
+                    sign-flipped version of the upper-triangle. Formally:
+                    <i>A = -A<sup>T</sup></i>
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Skew-symmetric_matrix" class="external-link">
+                        Skew-Symmetric Matrix
+                    </a>
+                    <button id="skew-symm-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+
+            <article class="card">
+                <h2>Diagonal Matrix</h2>
+                <p>
+                    A Diagonal Matrix is a matrix that has all zeros on the off-diagonals,
+                    and only the diagonal elements (going from top-left to bottom-right)
+                    may contain non-zero elements. 
+                    Formally:
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                        <mrow>
+                            <msub>
+                                <mi>a</mi><mrow><mi>i</mi><mo>,</mo><mi>j</mi></mrow>
+                            </msub>
+                            <mo>=</mo>
+                            <mrow>
+                                <mo>{</mo>
+                                <mtable columnalign="left">
+                                    <mtr>
+                                        <mtd><msub><mi>α</mi><mi>n</mi></msub></mtd>
+                                        <mtd><mtext>if </mtext><mi>i</mi><mo>=</mo><mi>j</mi></mtd>
+                                    </mtr>
+                                    <mtr>
+                                        <mtd><mn>0</mn></mtd>
+                                        <mtd><mtext>if </mtext><mi>i</mi><mo>≠</mo><mi>j</mi></mtd>
+                                    </mtr>
+                                </mtable>
+                            </mrow>
+                        </mrow>
+                    </math>
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Diagonal_matrix" class="external-link">
+                        Diagonal Matrix
+                    </a>
+                    <button id="diag-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+            
+            <article class="card">
+                <h2>Triangular Matrix</h2>
+                <p>
+                    A Triangular Matrix is a matrix that can come in 2 forms:
+                </p>
+                <ul>
+                    <li>
+                        upper-triangular: only the diagonal and the elements above it may contain 
+                        non-zero elements
+                    </li>
+                    <li>
+                        lower-triangular: only the diagonal and the elements below it may contain
+                        non-zero elements
+                    </li>
+                </ul>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Triangular_matrix" class="external-link">
+                        Triangular Matrix
+                    </a>
+                    <button id="triang-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+
+            <article class="card">
+                <h2>Orthogonal Matrix</h2>
+                <p>
+                    An Orthogonal Matrix is a matrix that satisfies the following two criteria:
+                    <ol>
+                        <li>All of its columns are pairwise orthogonal. It means that
+                            the dot product between any two columns is 0.
+                        </li>
+                        <li>
+                            Each column is unit magnitude. Formally:
+                            ∥Q<sub>i</sub>∥ = 1
+                        </li>
+                    </ol>
+                    Formally:
+                    <math xmlns="http://www.w3.org/1998/Math/MathML" display="block">
+                    <mrow>
+                        <mo>〈</mo>
+                            <msub><mi>Q</mi><mi>i</mi></msub>
+                            <mo>,</mo>
+                            <msub><mi>Q</mi><mi>j</mi></msub>
+                        <mo>〉</mo>
+                        <mo>=</mo>
+
+                        <mrow>
+                            <mo>{</mo>
+                            <mtable columnalign="left">
+                                <mtr>
+                                    <mtd>
+                                        <mn>1</mn><mo>,</mo>
+                                    </mtd>
+                                    <mtd>
+                                        <mtext>if </mtext><mi>i</mi><mo>=</mo><mi>j</mi>
+                                    </mtd>
+                                </mtr>
+                                <mtr>
+                                <mtd>
+                                    <mn>0</mn><mo>,</mo>
+                                </mtd>
+                                <mtd>
+                                    <mtext>if </mtext><mi>i</mi><mo>≠</mo><mi>j</mi>
+                                </mtd>
+                                </mtr>
+                            </mtable>
+                        </mrow>
+                    </mrow>
+                    </math>
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Orthogonal_matrix" class="external-link">
+                        Orthogonal Matrix
+                    </a>
+                    <button id="ortho-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+
+            <article class="card">
+                <h2>Toeplitz Matrix</h2>
+                <p>
+                    A Toeplitz Matrix is a matrix in which each <b>descending</b> diagonal contains the same element.
+                    Formally: 
+                    <i>A<sub>i,j</sub> = A<sub>i+1,j+1</sub> = a<sub>i-j</sub></i>
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Toeplitz_matrix" class="external-link">Toeplitz Matrix</a>
+                    <button id="toeplitz-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+            
+            <article class="card">
+                <h2>Hankel Matrix</h2>
+                <p>
+                    A Hankel Matrix is a square matrix in which each <b>ascending</b> diagonal contains the same element
+                </p>
+                <footer>
+                    <a href="https://en.wikipedia.org/wiki/Hankel_matrix" class="external-link">Hankel Matrix</a>
+                    <button id="hankel-mat-btn" class="secondary-btn">Draw</button>
+                </footer>
+            </article>
+        </nav>
+    </aside>
+</body>
+</html>
