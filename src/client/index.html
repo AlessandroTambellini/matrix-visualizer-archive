@@ -18,9 +18,8 @@
         }
     }
     </script>
-    <script src="./index.js" type="module"></script>
-    <script src="./render.js" type="module"></script>
-    <script src="./ui.js"    type="module"></script>
+    <script src="./paint.js" type="module"></script>
+    <script src="./nav.js"    type="module"></script>
 </head>
 <body>
     <h1 class="hidden">Matrix Visualizer</h1>
@@ -58,21 +57,21 @@
                         <legend>v1</legend>
                         <!-- These placeholders are hardcoded to reflect the vectors of the 
                          initial matrix rendered. -->
-                        <input name="v1 x" type="number" min="-9" max="9" placeholder="5">
-                        <input name="v1 y" type="number" min="-9" max="9" placeholder="4">
-                        <input name="v1 z" type="number" min="-9" max="9" placeholder="1">
+                        <input name="v1_x" type="number" min="-9" max="9" placeholder="5">
+                        <input name="v1_y" type="number" min="-9" max="9" placeholder="4">
+                        <input name="v1_z" type="number" min="-9" max="9" placeholder="1">
                     </fieldset>
                     <fieldset class="custom-matrix-vector">
                         <legend>v2</legend>
-                        <input name="v2 x" type="number" min="-9" max="9" placeholder="-2">
-                        <input name="v2 y" type="number" min="-9" max="9" placeholder="3">
-                        <input name="v2 z" type="number" min="-9" max="9" placeholder="-4">
+                        <input name="v2_x" type="number" min="-9" max="9" placeholder="-2">
+                        <input name="v2_y" type="number" min="-9" max="9" placeholder="3">
+                        <input name="v2_z" type="number" min="-9" max="9" placeholder="-4">
                     </fieldset>
                     <fieldset class="custom-matrix-vector">
                         <legend>v3</legend>
-                        <input name="v3 x" type="number" min="-9" max="9" placeholder="3">
-                        <input name="v3 y" type="number" min="-9" max="9" placeholder="-4">
-                        <input name="v3 z" type="number" min="-9" max="9" placeholder="-6">
+                        <input name="v3_x" type="number" min="-9" max="9" placeholder="3">
+                        <input name="v3_y" type="number" min="-9" max="9" placeholder="-4">
+                        <input name="v3_z" type="number" min="-9" max="9" placeholder="-6">
                     </fieldset>
                 </fieldset>
                 <button class="secondary-btn">Create Matrix</button>
@@ -82,19 +81,19 @@
                 <fieldset>
                     <legend>Multiply by Scalar</legend>
                     <div id="v1-control" class="flex">
-                        <label for="v1-slider">v1</label>
-                        <input type="range" min="-9" max="9" value="1" id="v1-slider" class="v-slider">
+                        <label for="v1-scalar-input">v1</label>
+                        <input type="range" min="-9" max="9" value="1" id="v1-scalar-input" class="v-scalar-input">
                         <span class="v-scalar">1</span>
                     </div>
                     <div id="v2-control" class="flex">
-                        <label for="v2-slider">v2</label>
-                        <input type="range" min="-9" max="9" value="1" id="v2-slider" class="v-slider">		
+                        <label for="v2-scalar-input">v2</label>
+                        <input type="range" min="-9" max="9" value="1" id="v2-scalar-input" class="v-scalar-input">		
                         <span class="v-scalar">1</span>
                     </div>
                     
                     <div id="v3-control" class="flex">
-                        <label for="v3-slider">v3</label>
-                        <input type="range" min="-9" max="9" value="1" id="v3-slider" class="v-slider">		
+                        <label for="v3-scalar-input">v3</label>
+                        <input type="range" min="-9" max="9" value="1" id="v3-scalar-input" class="v-scalar-input">		
                         <span class="v-scalar">1</span>
                     </div>
                 </fieldset>
