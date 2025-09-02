@@ -1,5 +1,5 @@
-import * as THREE from './three.module.js';
-import { OrbitControls } from './OrbitControls.js';
+import * as THREE from './three/three.module.min.js';
+import { OrbitControls } from './three/OrbitControls.js';
 
 const canvas = document.querySelector('canvas');
 
